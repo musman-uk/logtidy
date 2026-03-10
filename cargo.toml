@@ -1,0 +1,9 @@
+[package]
+name = "logtidy"
+version = "0.1.0"
+edition = "2021"
+authors = ["Mohammed Usman"]
+license = "Proprietary"
+
+[dependencies]
+assert_cmd = "2.0"
