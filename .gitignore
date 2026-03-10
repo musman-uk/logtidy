@@ -1,0 +1,15 @@
+# Rust build output
+/target/
+
+# Cargo package files
+**/*.rs.bk
+
+# VS Code settings (optional, but keeps repo clean)
+.vscode/
+
+# Logs or temporary files
+*.log
+
+# OS-specific noise
+.DS_Store
+Thumbs.db
