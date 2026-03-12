@@ -1,4 +1,4 @@
-mod detect;
+mod parser;
 mod envelope;
 mod line;
 mod stream;
