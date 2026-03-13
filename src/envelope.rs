@@ -8,7 +8,6 @@ pub struct Envelope {
     pub level: Option<String>,
     pub message: Option<String>,
     pub fields: HashMap<String, Value>,
-    pub raw: Option<String>,
 }
 
 impl Envelope {
@@ -19,47 +18,52 @@ impl Envelope {
         }
     }
 
-    pub fn is_structured(&self) -> bool {
-        self.timestamp.is_some()
-            || self.level.is_some()
-            || self.message.is_some()
-            || !self.fields.is_empty()
-    }
-
     pub fn into_json(self) -> Value {
         let mut obj = Map::new();
 
-        // 1. Line number first
+        // 1. Line number (always present)
         obj.insert("line".into(), Value::from(self.line));
 
-        // 2. Message (human meaning)
-        if let Some(msg) = self.message {
-            obj.insert("message".into(), Value::from(msg));
-        }
+        // 2. Message (null if missing)
+        obj.insert(
+            "message".into(),
+            match self.message {
+                Some(m) => Value::String(m),
+                None => Value::Null,
+            },
+        );
 
-        // 3. Timestamp (temporal context)
-        if let Some(ts) = self.timestamp {
-            obj.insert("timestamp".into(), Value::from(ts));
-        }
+        // 3. Timestamp (null if missing)
+        obj.insert(
+            "timestamp".into(),
+            match self.timestamp {
+                Some(t) => Value::String(t),
+                None => Value::Null,
+            },
+        );
 
-        // 4. Level (severity)
-        if let Some(level) = self.level {
-            obj.insert("level".into(), Value::from(level));
-        }
+        // 4. Level (null if missing)
+        obj.insert(
+            "level".into(),
+            match self.level {
+                Some(l) => Value::String(l),
+                None => Value::Null,
+            },
+        );
 
-        // 5. Fields (structured metadata)
-        if !self.fields.is_empty() {
-            let mut map = Map::new();
-            for (k, v) in self.fields {
-                map.insert(k, v);
-            }
-            obj.insert("fields".into(), Value::Object(map));
-        }
-
-        // 6. Raw (fallback)
-        if let Some(raw) = self.raw {
-            obj.insert("raw".into(), Value::from(raw));
-        }
+        // 5. Fields (null if empty)
+        obj.insert(
+            "fields".into(),
+            if self.fields.is_empty() {
+                Value::Null
+            } else {
+                let mut map = Map::new();
+                for (k, v) in self.fields {
+                    map.insert(k, v);
+                }
+                Value::Object(map)
+            },
+        );
 
         Value::Object(obj)
     }
