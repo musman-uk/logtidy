@@ -4,6 +4,15 @@ version = "0.1.0"
 edition = "2021"
 authors = ["Mohammed Usman"]
 license = "Proprietary"
+description = "A CLI tool that normalises logs."
+repository = "https://github.com/musman-uk/logtidy"
 
 [dependencies]
-assert_cmd = "2.0"
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+regex = "1"
+thiserror = "1"
+
+[dev-dependencies]
+assert_cmd = "2"
+predicates = "3"
