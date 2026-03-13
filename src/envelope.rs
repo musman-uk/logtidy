@@ -33,15 +33,24 @@ impl Envelope {
         if let Some(ts) = self.timestamp {
             obj.insert("timestamp".into(), Value::from(ts));
         }
+
         if let Some(level) = self.level {
             obj.insert("level".into(), Value::from(level));
         }
+
         if let Some(msg) = self.message {
             obj.insert("message".into(), Value::from(msg));
         }
+
+        // FIX: Convert HashMap<String, Value> → Map<String, Value>
         if !self.fields.is_empty() {
-            obj.insert("fields".into(), Value::from(self.fields));
+            let mut map = Map::new();
+            for (k, v) in self.fields {
+                map.insert(k, v);
+            }
+            obj.insert("fields".into(), Value::Object(map));
         }
+
         if let Some(raw) = self.raw {
             obj.insert("raw".into(), Value::from(raw));
         }
