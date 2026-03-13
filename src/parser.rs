@@ -12,7 +12,7 @@ pub struct Parser {
 impl Parser {
     pub fn new() -> Self {
         let ts_regex = Regex::new(
-            r"(?P<ts>\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z)",
+            r"(?P<ts>\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z)"
         )
         .unwrap();
 
@@ -27,22 +27,33 @@ impl Parser {
     pub fn process(&self, line: Line) -> Value {
         let mut env = Envelope::new(line.number);
 
+        // 1. Try JSON first
         if let Some(json_value) = self.try_json(&line.text) {
             self.extract_from_json(&mut env, json_value);
         }
 
+        // 2. Extract timestamp if missing
         if env.timestamp.is_none() {
             if let Some(ts) = self.extract_timestamp(&line.text) {
                 env.timestamp = Some(ts);
             }
         }
 
+        // 3. Extract level if missing
         if env.level.is_none() {
             if let Some(level) = self.extract_level(&line.text) {
                 env.level = Some(level);
             }
         }
 
+        // 4. Extract message if missing
+        if env.message.is_none() {
+            if let Some(msg) = self.extract_message(&line.text) {
+                env.message = Some(msg);
+            }
+        }
+
+        // 5. If nothing structured was found, store raw
         if !env.is_structured() {
             env.raw = Some(line.text);
         }
@@ -106,5 +117,19 @@ impl Parser {
         self.level_regex
             .captures(text)
             .and_then(|caps| caps.get(1).map(|m| m.as_str().to_string()))
+    }
+
+    fn extract_message(&self, text: &str) -> Option<String> {
+        // Remove timestamp
+        let without_ts = self.ts_regex.replace(text, "").trim().to_string();
+
+        // Remove level
+        let without_level = self.level_regex.replace(&without_ts, "").trim().to_string();
+
+        if without_level.is_empty() {
+            None
+        } else {
+            Some(without_level)
+        }
     }
 }
