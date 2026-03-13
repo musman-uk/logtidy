@@ -3,7 +3,11 @@ use crate::line::Line;
 use crate::parser::Parser;
 use std::io::{self, BufRead};
 
-pub fn run() -> Result<(), LogTidyError> {
+/// Runs logtidy using a custom JSON printer that preserves key order.
+pub fn run_with_printer<F>(printer: F) -> Result<(), LogTidyError>
+where
+    F: Fn(&serde_json::Value) -> String,
+{
     let stdin = io::stdin();
     let parser = Parser::new();
 
@@ -12,9 +16,11 @@ pub fn run() -> Result<(), LogTidyError> {
         if text.trim().is_empty() {
             continue;
         }
+
         let line = Line::new(idx + 1, text);
         let json = parser.process(line);
-        println!("{}", json);
+
+        println!("{}", printer(&json));
     }
 
     Ok(())
