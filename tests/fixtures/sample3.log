@@ -1,0 +1,8 @@
+START RequestId: abc-123 Version: $LATEST
+2024-03-10T12:00:01Z INFO Received event type=OrderCreated id=991
+{"ts":"2024-03-10T12:00:02Z","level":"debug","message":"Fetching user","user_id":991}
+2024-03-10T12:00:03Z WARN External API latency high duration_ms=900
+2024-03-10T12:00:04Z INFO User fetched id=991
+2024-03-10T12:00:05Z ERROR Failed to enrich order id=991 reason="missing address"
+END RequestId: abc-123
+REPORT RequestId: abc-123 Duration: 1200 ms Billed Duration: 2000 ms
