@@ -1,24 +1,12 @@
-mod parser;
 mod envelope;
-mod line;
-mod stream;
 mod errors;
-
-use std::io::{self, BufRead};
+mod line;
+mod parser;
+mod stream;
 
 fn main() {
-    let stdin = io::stdin();
-
-    for line in stdin.lock().lines() {
-        match line {
-            Ok(raw) => {
-                let escaped = raw.replace('"', "\\\"");
-                println!("{{\"raw\": \"{}\"}}", escaped);
-            }
-            Err(e) => {
-                eprintln!("logtidy: failed to read input: {}", e);
-                std::process::exit(1);
-            }
-        }
+    if let Err(e) = stream::run() {
+        eprintln!("logtidy error: {}", e);
+        std::process::exit(1);
     }
 }
