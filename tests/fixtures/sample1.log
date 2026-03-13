@@ -1,0 +1,15 @@
+2024-03-10T12:00:01Z INFO Starting service version=1.4.2
+2024-03-10T12:00:02Z DEBUG Loading configuration from /etc/app/config.yaml
+User logged in: id=42 name="Alice"
+2024-03-10T12:00:03Z WARN Slow response from /api/orders duration_ms=650
+{"ts":"2024-03-10T12:00:04Z","level":"info","message":"Cache warm","items":120}
+2024-03-10T12:00:10Z ERROR Timeout while calling payment gateway
+garbage line with nothing useful at all
+2024-03-10T12:00:30Z ERROR Payment failed code=PAY-002
+{"time":"2024-03-10T12:00:32Z","lvl":"error","msg":"Timeout while calling payment gateway","duration_ms":1200}
+2024-03-10T12:00:33Z ERROR Timeout while calling payment gateway
+2024-03-10T12:05:33Z INFO Background job started
+{"ts":"2024-03-10T12:05:34Z","level":"info","message":"Completed request","duration_ms":1200}
+{"ts":"2024-03-10T12:05:35Z","level":"info","message":"/api/slow","duration_ms":2000}
+2024-03-10T12:05:37Z ERROR Timeout while calling payment gateway
+2024-03-10T12:05:38Z DEBUG Cleanup complete
