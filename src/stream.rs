@@ -3,11 +3,8 @@ use crate::line::Line;
 use crate::parser::Parser;
 use std::io::{self, BufRead};
 
-/// Runs logtidy using a custom JSON printer that preserves key order.
-pub fn run_with_printer<F>(printer: F) -> Result<(), LogTidyError>
-where
-    F: Fn(&serde_json::Value) -> String,
-{
+/// Runs logtidy with a fixed JSON structure and consistent key order.
+pub fn run() -> Result<(), LogTidyError> {
     let stdin = io::stdin();
     let parser = Parser::new();
 
@@ -20,7 +17,8 @@ where
         let line = Line::new(idx + 1, text);
         let json = parser.process(line);
 
-        println!("{}", printer(&json));
+        // Serde preserves insertion order from Envelope::into_json()
+        println!("{}", serde_json::to_string(&json).unwrap());
     }
 
     Ok(())
