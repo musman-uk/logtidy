@@ -1,0 +1,12 @@
+[12:00:01] Service booting...
+config loaded OK
+2024-03-10T12:00:02Z INFO Worker pool size=8
+12:00:03Z WARN Something took too long: 780ms
+{ "timestamp": "2024-03-10T12:00:04Z", "level": "info", "message": "Heartbeat" }
+2024-03-10T12:00:05Z DEBUG user=17 action="viewed dashboard"
+BROKEN_JSON { "ts": "2024-03-10T12:00:06Z", "level": "error"
+2024-03-10T12:00:07Z ERROR Failed to load profile user=17
+2024-03-10T12:00:08Z INFO Retrying request
+2024-03-10T12:00:09Z ERROR Failed to load profile user=17
+random text that means nothing
+2024-03-10T12:00:10Z INFO Completed in 450ms
