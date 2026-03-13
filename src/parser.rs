@@ -53,10 +53,8 @@ impl Parser {
             }
         }
 
-        // 5. If nothing structured was found, store raw
-        if !env.is_structured() {
-            env.raw = Some(line.text);
-        }
+        // ❌ REMOVE raw fallback — we no longer use raw
+        // ❌ REMOVE env.is_structured() logic entirely
 
         env.into_json()
     }
@@ -96,6 +94,7 @@ impl Parser {
                         }
                     }
                     _ => {
+                        // Keep unknown fields, but do NOT preserve original JSON structure
                         fields.insert(k, v);
                     }
                 }
