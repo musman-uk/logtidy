@@ -28,21 +28,26 @@ impl Envelope {
 
     pub fn into_json(self) -> Value {
         let mut obj = Map::new();
+
+        // 1. Line number first
         obj.insert("line".into(), Value::from(self.line));
 
-        if let Some(ts) = self.timestamp {
-            obj.insert("timestamp".into(), Value::from(ts));
-        }
-
-        if let Some(level) = self.level {
-            obj.insert("level".into(), Value::from(level));
-        }
-
+        // 2. Message (human meaning)
         if let Some(msg) = self.message {
             obj.insert("message".into(), Value::from(msg));
         }
 
-        // FIX: Convert HashMap<String, Value> → Map<String, Value>
+        // 3. Timestamp (temporal context)
+        if let Some(ts) = self.timestamp {
+            obj.insert("timestamp".into(), Value::from(ts));
+        }
+
+        // 4. Level (severity)
+        if let Some(level) = self.level {
+            obj.insert("level".into(), Value::from(level));
+        }
+
+        // 5. Fields (structured metadata)
         if !self.fields.is_empty() {
             let mut map = Map::new();
             for (k, v) in self.fields {
@@ -51,6 +56,7 @@ impl Envelope {
             obj.insert("fields".into(), Value::Object(map));
         }
 
+        // 6. Raw (fallback)
         if let Some(raw) = self.raw {
             obj.insert("raw".into(), Value::from(raw));
         }
