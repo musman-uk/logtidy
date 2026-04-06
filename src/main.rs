@@ -7,6 +7,10 @@ mod line;
 mod parser;
 mod stream;
 
+// Import the tidy() function from your library API
+use logtidy::tidy;
+
+/// CLI definition
 #[derive(Parser)]
 #[command(
     name = "logtidy",
@@ -19,6 +23,7 @@ struct Cli {
     command: Option<Commands>,
 }
 
+/// Subcommands
 #[derive(Subcommand)]
 enum Commands {
     /// Clean and normalise logs
@@ -44,8 +49,8 @@ fn main() -> anyhow::Result<()> {
     match cli.command {
         Some(Commands::Tidy { file }) => {
             let input = read_input(file)?;
-            let output = logtidy::tidy(&input)?;
-            println!("{output}");
+            let output = tidy(&input)?;
+            print!("{output}");
         }
 
         Some(Commands::Sample) => {
@@ -74,7 +79,7 @@ fn main() -> anyhow::Result<()> {
         }
 
         Some(Commands::About) => {
-            println!("logtidy — a quiet developer tool");
+            println!("logtidy — a small developer tool");
             println!("Author: Mohammed Usman");
             println!("Repository: https://github.com/musman-uk/logtidy");
         }
@@ -84,7 +89,7 @@ fn main() -> anyhow::Result<()> {
             println!("logtidy — normalise logs into structured form");
             println!("------------------------------------------------");
             println!("Commands:");
-            println!("  tidy      Clean and normalise logs");
+            println!("  tidy      Normalise logs");
             println!("  sample    Show example input/output");
             println!("  docs      Show documentation");
             println!("  about     Show credits");
@@ -95,6 +100,7 @@ fn main() -> anyhow::Result<()> {
     Ok(())
 }
 
+/// Reads from a file if provided, otherwise from stdin
 fn read_input(file: Option<PathBuf>) -> anyhow::Result<String> {
     if let Some(path) = file {
         Ok(std::fs::read_to_string(path)?)
