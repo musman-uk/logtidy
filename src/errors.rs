@@ -8,7 +8,4 @@ pub enum LogTidyError {
 
     #[error("Failed to serialise JSON output: {0}")]
     JsonOutput(#[from] SerdeError),
-
-    #[error("Internal error: {0}")]
-    Internal(String),
 }
