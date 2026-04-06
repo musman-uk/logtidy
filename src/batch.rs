@@ -2,6 +2,7 @@ use crate::errors::LogTidyError;
 use crate::parser::Parser;
 use crate::line::Line;
 
+/// Batch mode: process an entire input string and return structured output.
 pub fn batch(input: &str) -> Result<String, LogTidyError> {
     let parser = Parser::new();
     let mut output = String::new();
