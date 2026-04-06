@@ -1,16 +1,16 @@
 use clap::{Parser, Subcommand};
 use std::path::PathBuf;
-use std::io::Read; // Needed for read_to_string()
-use anyhow::Result;  
+use std::io::Read;
+use anyhow::{Result, Context};
 
 mod envelope;
 mod errors;
 mod line;
 mod parser;
 mod stream;
+mod batch;
 
-// Import the tidy() function from your library API
-use logtidy::tidy;
+use errors::LogTidyError;
 
 /// CLI definition
 #[derive(Parser)]
@@ -28,12 +28,15 @@ struct Cli {
 /// Subcommands
 #[derive(Subcommand)]
 enum Commands {
-    /// Clean and normalise logs
-    Tidy {
+    /// Batch mode: process entire input at once
+    Batch {
         /// Input file (optional)
         #[arg(short, long)]
         file: Option<PathBuf>,
     },
+
+    /// Stream mode: read from stdin line-by-line
+    Stream,
 
     /// Show example input/output
     Sample,
@@ -45,14 +48,18 @@ enum Commands {
     About,
 }
 
-fn main() -> anyhow::Result<()> {
+fn main() -> Result<()> {
     let cli = Cli::parse();
 
     match cli.command {
-        Some(Commands::Tidy { file }) => {
+        Some(Commands::Batch { file }) => {
             let input = read_input(file)?;
-            let output = tidy(&input)?;
+            let output = batch::batch(&input)?;
             print!("{output}");
+        }
+
+        Some(Commands::Stream) => {
+            stream::stream()?;
         }
 
         Some(Commands::Sample) => {
@@ -69,8 +76,8 @@ fn main() -> anyhow::Result<()> {
             println!("  Convert raw, inconsistent logs into structured, predictable output.");
             println!();
             println!("Usage:");
-            println!("  logtidy tidy --file <path>");
-            println!("  cat app.log | logtidy tidy");
+            println!("  logtidy batch --file <path>");
+            println!("  cat app.log | logtidy stream");
             println!();
             println!("Input:");
             println!("  - Raw log lines (text)");
@@ -90,11 +97,11 @@ fn main() -> anyhow::Result<()> {
         }
 
         None => {
-            // Main menu
             println!("logtidy — normalise logs into structured form");
             println!("------------------------------------------------");
             println!("Commands:");
-            println!("  tidy      Normalise logs");
+            println!("  batch     Process entire input at once");
+            println!("  stream    Read from stdin line-by-line");
             println!("  sample    Show example input/output");
             println!("  docs      Show documentation");
             println!("  about     Show credits");
@@ -106,12 +113,15 @@ fn main() -> anyhow::Result<()> {
 }
 
 /// Reads from a file if provided, otherwise from stdin
-fn read_input(file: Option<PathBuf>) -> anyhow::Result<String> {
+fn read_input(file: Option<PathBuf>) -> Result<String> {
     if let Some(path) = file {
-        Ok(std::fs::read_to_string(path)?)
+        Ok(std::fs::read_to_string(&path)
+            .with_context(|| format!("Failed to read file: {}", path.display()))?)
     } else {
         let mut buf = String::new();
-        std::io::stdin().read_to_string(&mut buf)?;
+        std::io::stdin()
+            .read_to_string(&mut buf)
+            .context("Failed to read from stdin")?;
         Ok(buf)
     }
 }
