@@ -1,5 +1,7 @@
 use clap::{Parser, Subcommand};
 use std::path::PathBuf;
+use std::io::Read; // Needed for read_to_string()
+use anyhow::Result;  
 
 mod envelope;
 mod errors;
