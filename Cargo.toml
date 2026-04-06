@@ -6,12 +6,7 @@ authors = ["Mohammed Usman"]
 description = "A CLI tool that normalises logs."
 repository = "https://github.com/musman-uk/logtidy"
 
-license = "LicenseRef-Logtidy"
 license-file = "LICENSE"
-
-[lib]
-name = "logtidy"
-path = "src/lib.rs"
 
 [dependencies]
 serde = { version = "1", features = ["derive"] }
