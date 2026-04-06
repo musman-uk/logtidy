@@ -75,7 +75,10 @@ fn main() -> anyhow::Result<()> {
             println!("  - Stdin or file");
             println!();
             println!("Output:");
-            println!("  - Structured logs (JSON or text)");
+            println!("  - Structured logs (JSON)");
+            println!();
+            println!("Full documentation:");
+            println!("  https://github.com/musman-uk/logtidy");
         }
 
         Some(Commands::About) => {
