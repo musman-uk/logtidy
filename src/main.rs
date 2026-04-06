@@ -10,7 +10,6 @@ mod parser;
 mod stream;
 mod batch;
 
-use errors::LogTidyError;
 
 /// CLI definition
 #[derive(Parser)]
