@@ -3,9 +3,15 @@ name = "logtidy"
 version = "0.1.0"
 edition = "2021"
 authors = ["Mohammed Usman"]
-license = "Proprietary"
 description = "A CLI tool that normalises logs."
 repository = "https://github.com/musman-uk/logtidy"
+
+license = "LicenseRef-Logtidy"
+license-file = "LICENSE"
+
+[lib]
+name = "logtidy"
+path = "src/lib.rs"
 
 [dependencies]
 serde = { version = "1", features = ["derive"] }
