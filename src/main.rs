@@ -44,6 +44,9 @@ enum Commands {
 
     /// Show tool information
     About,
+
+    /// Show license information
+    License,
 }
 
 fn main() -> Result<()> {
@@ -102,6 +105,14 @@ fn main() -> Result<()> {
             println!("Source: https://github.com/musman-uk/logtidy");
         }
 
+        Some(Commands::License) => {
+            println!("license");
+            println!("------------------------------------------------");
+            println!("© Mohammed Usman");
+            println!();
+            println!("All rights reserved. No commercial use, redistribution, or derivatives.");
+        }
+
         None => {
             println!("logtidy");
             println!("------------------------------------------------");
@@ -113,6 +124,7 @@ fn main() -> Result<()> {
             println!("  sample    Show example input/output");
             println!("  docs      Show condensed documentation");
             println!("  about     Show tool information");
+            println!("  license   Show license information");
             println!("  help      Show help");
         }
     }
