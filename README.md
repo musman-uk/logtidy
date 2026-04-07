@@ -10,7 +10,7 @@ A short summary of what each part of the project contains:
 
 - `src/` – Rust source files for the CLI, parsing logic, and output envelope  
 - `tests/` – integration tests and sample fixtures  
-- `documentation.md` – full usage, examples, and troubleshooting  
+- `Documentation.md` – full usage, examples, and troubleshooting  
 - `Cargo.toml` – package metadata and binary definitions (`logtidy` and `lt`)  
 - `LICENSE` – project license  
 - `README.md` – high‑level overview of the project, including purpose and structure  
@@ -21,12 +21,12 @@ A short summary of what each part of the project contains:
 
 A simplified view of how the tool is developed:
 
-| Stage     | Location          | Purpose |
-|-----------|-------------------|---------|
-| Implement | `src/`            | Core logic, CLI behaviour, and parsing modules |
-| Test      | `tests/`          | Integration tests and fixture‑based validation |
-| Build     | `cargo build`     | Produces binaries (`logtidy`, `lt`) for release |
-| Document  | `documentation.md`| Full usage, examples, and troubleshooting |
+| Stage     | Location       | Purpose |
+|-----------|----------------|---------|
+| Implement | `src/`         | Core logic, CLI behaviour, and parsing modules |
+| Test      | `tests/`       | Integration tests and fixture‑based validation |
+| Build     | `cargo build`  | Produces binaries (`logtidy`, `lt`) for release |
+| Record  | `RECORD.md`    | High‑level design notes, development history, and architectural decisions |
 
 ---
 
