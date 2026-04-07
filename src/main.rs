@@ -10,7 +10,6 @@ mod parser;
 mod stream;
 mod batch;
 
-
 /// CLI definition
 #[derive(Parser)]
 #[command(
@@ -43,7 +42,7 @@ enum Commands {
     /// Show documentation
     Docs,
 
-    /// Show credits
+    /// Show tool information
     About,
 }
 
@@ -62,6 +61,8 @@ fn main() -> Result<()> {
         }
 
         Some(Commands::Sample) => {
+            println!("sample");
+            println!("------------------------------------------------");
             println!("Example input:");
             println!("  [raw log line]");
             println!("Example output:");
@@ -69,10 +70,10 @@ fn main() -> Result<()> {
         }
 
         Some(Commands::Docs) => {
-            println!("logtidy — documentation");
+            println!("docs");
             println!("------------------------------------------------");
             println!("Purpose:");
-            println!("  Convert raw, inconsistent logs into structured, predictable output.");
+            println!("  Convert raw logs into structured, predictable output.");
             println!();
             println!("Usage:");
             println!("  logtidy batch --file <path>");
@@ -85,25 +86,33 @@ fn main() -> Result<()> {
             println!("Output:");
             println!("  - Structured logs (JSON)");
             println!();
-            println!("Full documentation:");
-            println!("  https://github.com/musman-uk/logtidy");
+            println!("Examples:");
+            println!("  For example input/output, run:");
+            println!("    logtidy sample");
+            println!();
+            println!("Full Documentation:");
+            println!("  https://github.com/musman-uk/logtidy/blob/main/Documentation.md");
         }
 
         Some(Commands::About) => {
-            println!("logtidy — a small developer tool");
-            println!("Author: Mohammed Usman");
-            println!("Repository: https://github.com/musman-uk/logtidy");
+            println!("about");
+            println!("------------------------------------------------");
+            println!("Name: LogTidy");
+            println!("Version: {}", env!("CARGO_PKG_VERSION"));
+            println!("Source: https://github.com/musman-uk/logtidy");
         }
 
         None => {
-            println!("logtidy — normalise logs into structured form");
+            println!("logtidy");
             println!("------------------------------------------------");
+            println!("Normalise logs into structured form");
+            println!();
             println!("Commands:");
             println!("  batch     Process entire input at once");
             println!("  stream    Read from stdin line-by-line");
             println!("  sample    Show example input/output");
-            println!("  docs      Show documentation");
-            println!("  about     Show credits");
+            println!("  docs      Show condensed documentation");
+            println!("  about     Show tool information");
             println!("  help      Show help");
         }
     }
