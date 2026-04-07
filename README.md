@@ -1,6 +1,6 @@
 # LogTidy
 
-LogTidy is a log normaliser that  converts unstructured log lines into structured JSON. It is designed for predictable CLI behaviour, simple composition with other tools, and clean integration into pipelines.
+LogTidy is a log normaliser that  converts unstructured log lines into structured JSONL. It is designed for predictable CLI behaviour, simple composition with other tools, and clean integration into pipelines.
 
 ---
 
@@ -14,20 +14,6 @@ A short summary of what each part of the project contains:
 - `Cargo.toml` – package metadata and binary definitions (`logtidy` and `lt`)  
 - `LICENSE` – project license  
 - `README.md` – high‑level overview of the project, including purpose and structure  
-
----
-
-## Source Layout
-
-| File / Module     | Purpose |
-|-------------------|---------|
-| `src/main.rs`     | CLI entry point; command dispatch for `stream`, `batch`, `sample`, `docs`, `about`, `help`. |
-| `src/stream.rs`   | Streaming mode: processes stdin line‑by‑line and emits structured JSON. |
-| `src/batch.rs`    | Batch mode: processes an entire file at once. |
-| `src/parser.rs`   | Core parsing logic for transforming raw log lines into structured representations. |
-| `src/line.rs`     | Line model and helpers for normalisation and field extraction. |
-| `src/envelope.rs` | Output envelope: wraps parsed lines into consistent JSON structures. |
-| `src/errors.rs`   | Error types and error handling used across the tool. |
 
 ---
 
