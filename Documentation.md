@@ -225,8 +225,6 @@ Use `Get-Content` rather than `type` or `cat` equivalents.
 
 ## 7. Known Limitations
 
-LogTidy keeps its scope intentionally small. The following behaviours are expected:
-
 - Only one timestamp format is supported:  
   `YYYY-MM-DDTHH:MM:SSZ`
 - Only uppercase log levels are detected  
