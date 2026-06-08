@@ -32,13 +32,47 @@ Both behave the same.
 
 ## 2. Installation
 
-Build release binaries:
+LogTidy can be installed in three ways: downloading a binary from GitHub Releases, installing from crates.io, or building from source using Cargo.
+
+### Install from GitHub Releases
+
+Download the latest binary for your platform from the Releases page:
+
+https://github.com/musman-uk/logtidy/releases
+
+Make it executable if needed, then place it somewhere on your PATH. For example on Linux or macOS:
+
+```
+chmod +x logtidy
+mv logtidy ~/.cargo/bin/
+```
+
+Verify installation:
+
+```
+logtidy help
+lt help
+```
+
+### Install from crates.io
+
+If you have Rust and Cargo installed, you can install LogTidy directly from crates.io:
+
+```
+cargo install logtidy
+```
+
+This compiles the tool from source and places the binaries in `~/.cargo/bin`.
+
+### Build from source with Cargo
+
+If you prefer to build the tool yourself, run:
 
 ```
 cargo build --release
 ```
 
-Install them somewhere on your PATH:
+Then place the binaries on your PATH:
 
 ```
 cp target/release/logtidy ~/.cargo/bin/
