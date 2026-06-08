@@ -223,9 +223,9 @@ Use `Get-Content` rather than `type` or `cat` equivalents.
 
 ---
 
-## 7. Known Limitations (v1)
+## 7. Known Limitations
 
-LogTidy v1 keeps its scope intentionally small. The following behaviours are expected:
+LogTidy keeps its scope intentionally small. The following behaviours are expected:
 
 - Only one timestamp format is supported:  
   `YYYY-MM-DDTHH:MM:SSZ`
