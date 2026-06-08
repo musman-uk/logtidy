@@ -18,13 +18,13 @@ LogTidy is a normaliser, not an analyser. It prepares logs for downstream tools 
 
 Two modes are available:
 
-- **Streaming mode** — process input line by line from stdin  
-- **Batch mode** — process an entire file at once  
+- **Streaming mode**: process input line by line from stdin  
+- **Batch mode**: process an entire file at once  
 
 Two binaries are provided:
 
-- `logtidy` — full command  
-- `lt` — short alias  
+- `logtidy`: full command  
+- `lt`: short alias  
 
 Both behave the same.
 
@@ -34,27 +34,37 @@ Both behave the same.
 
 Build release binaries:
 
-    cargo build --release
+```
+cargo build --release
+```
 
 Install them somewhere on your PATH:
 
-    cp target/release/logtidy ~/.cargo/bin/
-    cp target/release/lt ~/.cargo/bin/
+```
+cp target/release/logtidy ~/.cargo/bin/
+cp target/release/lt ~/.cargo/bin/
+```
 
 Verify installation:
 
-    logtidy help
-    lt help
+```
+logtidy help
+lt help
+```
 
 ### Quick Start
 
 Stream a log file:
 
-    cat app.log | logtidy stream
+```
+cat app.log | logtidy stream
+```
 
 PowerShell:
 
-    Get-Content app.log | logtidy stream
+```
+Get-Content app.log | logtidy stream
+```
 
 This emits structured JSON for each line.
 
@@ -81,11 +91,15 @@ The command surface is intentionally minimal.
 
 Process logs line by line from stdin:
 
-    Get-Content sample.log | logtidy stream
+```
+Get-Content sample.log | logtidy stream
+```
 
 Short form:
 
-    Get-Content sample.log | lt stream
+```
+Get-Content sample.log | lt stream
+```
 
 Use streaming mode when:
 
@@ -100,13 +114,15 @@ Use streaming mode when:
 
 Process an entire file:
 
-    logtidy batch -f sample.log
+```
+logtidy batch -f sample.log
+```
 
 Useful for:
 
 - archived logs  
-- deterministic file‑based processing  
-- tooling that expects whole‑file input  
+- deterministic file based processing  
+- tooling that expects whole file input  
 
 ---
 
@@ -114,21 +130,29 @@ Useful for:
 
 Input:
 
-    12:00:01 INFO Service started
+```
+12:00:01 INFO Service started
+```
 
 Output:
 
-    {"line":1,"message":"12:00:01 INFO Service started","timestamp":"12:00:01","level":"INFO","fields":null}
+```
+{"line":1,"message":"12:00:01 INFO Service started","timestamp":"12:00:01","level":"INFO","fields":null}
+```
 
 Unstructured lines are still emitted:
 
 Input:
 
-    Hello world
+```
+Hello world
+```
 
 Output:
 
-    {"line":1,"message":"Hello world","timestamp":null,"level":null,"fields":null}
+```
+{"line":1,"message":"Hello world","timestamp":null,"level":null,"fields":null}
+```
 
 ---
 
@@ -136,11 +160,15 @@ Output:
 
 Show documentation:
 
-    logtidy docs
+```
+logtidy docs
+```
 
 Show tool information:
 
-    logtidy about
+```
+logtidy about
+```
 
 ---
 
@@ -148,11 +176,11 @@ Show tool information:
 
 Each processed line is emitted as a JSON object with:
 
-- **line** — line number starting at 1  
-- **message** — original text (minus trailing newline)  
-- **timestamp** — extracted timestamp or null  
-- **level** — extracted log level or null  
-- **fields** — reserved for future structured fields  
+- **line**: line number starting at 1  
+- **message**: original text (minus trailing newline)  
+- **timestamp**: extracted timestamp or null  
+- **level**: extracted log level or null  
+- **fields**: reserved for future structured fields  
 
 The format is stable and predictable across versions.
 
@@ -162,16 +190,16 @@ The format is stable and predictable across versions.
 
 LogTidy aims to be predictable:
 
-- **Empty lines are skipped** due to Rust’s `.lines()` behaviour  
+- **Empty lines are skipped** due to Rust `.lines()` behaviour  
 - **Invalid timestamps become null**  
-- **Only one timestamp format is supported:**  
+- **Only one timestamp format is supported**:  
   `YYYY-MM-DDTHH:MM:SSZ`  
-- **Only uppercase log levels are detected:**  
+- **Only uppercase log levels are detected**:  
   `INFO`, `WARN`, `ERROR`, `DEBUG`, `TRACE`  
-- **Lowercase or mixed‑case levels are not detected**  
-- **Input must be valid UTF‑8** — invalid byte sequences cause an error before processing  
+- **Lowercase or mixed case levels are not detected**  
+- **Input must be valid UTF 8**; invalid byte sequences cause an error before processing  
 - **JSON is only detected when the line begins with `{`**  
-- **No parsing errors are thrown for malformed text**, only for invalid UTF‑8  
+- **No parsing errors are thrown for malformed text**, only for invalid UTF 8  
 
 This keeps LogTidy deterministic and safe for pipelines.
 
@@ -183,13 +211,17 @@ This keeps LogTidy deterministic and safe for pipelines.
 
 Use `Get-Content` for consistent streaming:
 
-    Get-Content sample.log | logtidy stream
+```
+Get-Content sample.log | logtidy stream
+```
 
 ### Linux and macOS
 
 Standard piping works as expected:
 
-    cat sample.log | logtidy stream
+```
+cat sample.log | logtidy stream
+```
 
 ---
 
@@ -197,9 +229,11 @@ Standard piping works as expected:
 
 ### LogTidy is not recognised as a command
 
-Ensure Cargo’s bin directory is on your PATH:
+Ensure Cargo bin directory is on your PATH:
 
-    ~/.cargo/bin
+```
+~/.cargo/bin
+```
 
 Restart your terminal after installation.
 
@@ -207,7 +241,9 @@ Restart your terminal after installation.
 
 Test with a simple inline example:
 
-    "INFO test" | logtidy stream
+```
+"INFO test" | logtidy stream
+```
 
 If this works, the issue is upstream.
 
@@ -215,7 +251,9 @@ If this works, the issue is upstream.
 
 Quote paths that contain spaces:
 
-    logtidy batch -f "C:\logs\sample log.txt"
+```
+logtidy batch -f "C:\logs\sample log.txt"
+```
 
 ### PowerShell buffering issues
 
@@ -229,13 +267,12 @@ Use `Get-Content` rather than `type` or `cat` equivalents.
   `YYYY-MM-DDTHH:MM:SSZ`
 - Only uppercase log levels are detected  
 - Empty lines are skipped rather than emitted  
-- Input must be valid UTF‑8  
+- Input must be valid UTF 8  
 - JSON is only detected when the line begins with `{`  
 - LogTidy does not infer meaning, severity, or structure beyond what is explicitly present  
-
 
 ---
 
 ## 8. Summary
 
-LogTidy is a predictable tool. It takes messy log lines and turns them into clean, structured JSON without guessing or interpreting meaning. It is intentionally minimal, pipeline‑friendly and designed to pair naturally with downstream tools, making it safe to integrate into real workflows.
+LogTidy is a predictable tool. It takes messy log lines and turns them into clean, structured JSON without guessing or interpreting meaning. It is intentionally minimal, pipeline friendly and designed to pair naturally with downstream tools, making it safe to integrate into real workflows.
