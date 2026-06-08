@@ -238,4 +238,4 @@ Use `Get-Content` rather than `type` or `cat` equivalents.
 
 ## 8. Summary
 
-LogTidy is a small, focused tool. It takes messy log lines and turns them into clean, structured JSON without guessing or interpreting meaning. It is predictable, pipeline‑friendly, and designed to pair naturally with downstream tools like FrictionDetect. The behaviour is intentionally strict and minimal, making it easy to reason about and safe to integrate into real workflows.
+LogTidy is a predictable tool. It takes messy log lines and turns them into clean, structured JSON without guessing or interpreting meaning. It is intentionally minimal, pipeline‑friendly and designed to pair naturally with downstream tools, making it safe to integrate into real workflows.
