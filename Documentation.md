@@ -27,14 +27,14 @@ Two modes are available:
 
 Before installing LogTidy, there are a few requirements to ensure installation can run smoothly:
 
-### 1. A terminal
+### 2.1 A terminal
 LogTidy is a command‑line tool. You will need:
 
 - **Windows**: PowerShell or Command Prompt  
 - **macOS**: Terminal  
 - **Linux**: Any shell (bash, zsh, etc.)
 
-### 2. Understanding PATH
+### 2.2 Understanding PATH
 Your **PATH** is the list of folders your system searches when you type a command.
 
 If a program is inside a folder on your PATH, you can run it from any directory:
@@ -49,7 +49,7 @@ If it is *not* on your PATH, you must run it using the full file path:
 C:\Users\<you>\Downloads\logtidy.exe help
 ```
 
-### 3. A folder on PATH
+### 2.3 A folder on PATH
 You will need a folder where you can place the LogTidy binary.
 
 If you have Rust installed, the Cargo bin directory is already on PATH:
@@ -59,19 +59,21 @@ If you have Rust installed, the Cargo bin directory is already on PATH:
 
 Placing the binary here makes it available globally.
 
-### 4. Rust and Cargo (optional)
+### 2.4 Rust and Cargo (optional)
 Rust is **not required** to run LogTidy, but it is useful if you want to:
 
 - install via `cargo install logtidy`
 - build from source
 - use the `.cargo/bin` directory (already on PATH)
 
-### 5. Executable permissions (Linux/macOS only)
+### 2.5 Executable permissions (Linux/macOS only)
 Downloaded binaries must be made executable:
 
 ```
 chmod +x logtidy
 ```
+
+Windows users do not need this step.
 
 ---
 
@@ -83,18 +85,22 @@ All installation methods assume the prerequisites above have been met.
 
 ---
 
-### Install from GitHub Releases
+### 3.1 Install from GitHub Releases
 
 Download the latest binary from the Releases page:
 
 https://github.com/musman-uk/logtidy/releases
 
+**Note:**  
+Currently only **Windows binaries** are provided.  
+Linux and macOS users must install via crates.io or build from source.
+
 ---
 
-### Windows
+### 3.1.1 Windows
 
 1. Download `logtidy.exe` from the release.
-2. Move it into your Cargo bin directory
+2. Move it into your Cargo bin directory:
 
 ```
 C:\Users\<you>\.cargo\bin\
@@ -124,30 +130,7 @@ If you want to keep the binary somewhere else:
 
 ---
 
-### Linux and macOS
-
-1. Download the `logtidy` binary.
-2. Make it executable:
-
-```
-chmod +x logtidy
-```
-
-3. Move it into a folder on your PATH, for example:
-
-```
-mv logtidy ~/.cargo/bin/
-```
-
-4. Verify installation:
-
-```
-logtidy help
-```
-
----
-
-### Install from crates.io
+### 3.2 Install from crates.io
 
 If you have Rust and Cargo installed:
 
@@ -159,7 +142,9 @@ This compiles LogTidy from source and places the binary in `~/.cargo/bin`.
 
 ---
 
-### Build from source with Cargo
+### 3.3 Build from source with Cargo
+
+Clone the repository and build a release binary:
 
 ```
 cargo build --release
@@ -179,7 +164,7 @@ logtidy help
 
 ---
 
-### Quick Start
+### 3.4 Quick Start
 
 Stream a log file:
 
@@ -320,13 +305,13 @@ LogTidy aims to be predictable:
 - **Empty lines are skipped** due to Rust `.lines()` behaviour  
 - **Invalid timestamps become null**  
 - **Only one timestamp format is supported**:  
-  `YYYY-MM-DDTHH:MM:SSZ`  
+  `YYYY-MM-DDTHH:MMSSZ`  
 - **Only uppercase log levels are detected**:  
   `INFO`, `WARN`, `ERROR`, `DEBUG`, `TRACE`  
 - **Lowercase or mixed case levels are not detected**  
-- **Input must be valid UTF 8**; invalid byte sequences cause an error before processing  
+- **Input must be valid UTF‑8**; invalid byte sequences cause an error before processing  
 - **JSON is only detected when the line begins with `{`**  
-- **No parsing errors are thrown for malformed text**, only for invalid UTF 8  
+- **No parsing errors are thrown for malformed text**, only for invalid UTF‑8  
 
 This keeps LogTidy deterministic and safe for pipelines.
 
@@ -391,10 +376,10 @@ Use `Get-Content` rather than `type` or `cat` equivalents.
 ## 8. Known Limitations
 
 - Only one timestamp format is supported:  
-  `YYYY-MM-DDTHH:MM:SSZ`
+  `YYYY-MM-DDTHH:MMSSZ`
 - Only uppercase log levels are detected  
 - Empty lines are skipped rather than emitted  
-- Input must be valid UTF 8  
+- Input must be valid UTF‑8  
 - JSON is only detected when the line begins with `{`  
 - LogTidy does not infer meaning, severity, or structure beyond what is explicitly present  
 
@@ -403,4 +388,3 @@ Use `Get-Content` rather than `type` or `cat` equivalents.
 ## 9. Summary
 
 LogTidy is a predictable tool. It takes messy log lines and turns them into clean, structured JSON without guessing or interpreting meaning. It is intentionally minimal, pipeline friendly and designed to pair naturally with downstream tools, making it safe to integrate into real workflows.
-~~~
