@@ -21,12 +21,6 @@ Two modes are available:
 - **Streaming mode**: process input line by line from stdin  
 - **Batch mode**: process an entire file at once  
 
-Two binaries are provided:
-
-- `logtidy`: full command  
-- `lt`: short alias  
-
-Both behave the same.
 
 ---
 
@@ -51,7 +45,6 @@ Verify installation:
 
 ```
 logtidy help
-lt help
 ```
 
 ### Install from crates.io
@@ -76,7 +69,6 @@ Then place the binaries on your PATH:
 
 ```
 cp target/release/logtidy ~/.cargo/bin/
-cp target/release/lt ~/.cargo/bin/
 ```
 
 Verify installation:
