@@ -21,51 +21,151 @@ Two modes are available:
 - **Streaming mode**: process input line by line from stdin  
 - **Batch mode**: process an entire file at once  
 
-
 ---
 
-## 2. Installation
+## 2. Prerequisites
 
-LogTidy can be installed in three ways: downloading a binary from GitHub Releases, installing from crates.io, or building from source using Cargo.
+Before installing LogTidy, there are a few requirements to ensure installation can run smoothly:
 
-### Install from GitHub Releases
+### 1. A terminal
+LogTidy is a command‑line tool. You will need:
 
-Download the latest binary for your platform from the Releases page:
+- **Windows**: PowerShell or Command Prompt  
+- **macOS**: Terminal  
+- **Linux**: Any shell (bash, zsh, etc.)
 
-https://github.com/musman-uk/logtidy/releases
+### 2. Understanding PATH
+Your **PATH** is the list of folders your system searches when you type a command.
 
-Make it executable if needed, then place it somewhere on your PATH. For example on Linux or macOS:
-
-```
-chmod +x logtidy
-mv logtidy ~/.cargo/bin/
-```
-
-Verify installation:
+If a program is inside a folder on your PATH, you can run it from any directory:
 
 ```
 logtidy help
 ```
 
+If it is *not* on your PATH, you must run it using the full file path:
+
+```
+C:\Users\<you>\Downloads\logtidy.exe help
+```
+
+### 3. A folder on PATH
+You will need a folder where you can place the LogTidy binary.
+
+If you have Rust installed, the Cargo bin directory is already on PATH:
+
+- **Windows**: `C:\Users\<you>\.cargo\bin\`
+- **Linux/macOS**: `~/.cargo/bin/`
+
+Placing the binary here makes it available globally.
+
+### 4. Rust and Cargo (optional)
+Rust is **not required** to run LogTidy, but it is useful if you want to:
+
+- install via `cargo install logtidy`
+- build from source
+- use the `.cargo/bin` directory (already on PATH)
+
+### 5. Executable permissions (Linux/macOS only)
+Downloaded binaries must be made executable:
+
+```
+chmod +x logtidy
+```
+
+---
+
+## 3. Installation
+
+LogTidy can be installed in three ways: downloading a binary from GitHub Releases, installing from crates.io, or building from source using Cargo.
+
+All installation methods assume the prerequisites above have been met.
+
+---
+
+### Install from GitHub Releases
+
+Download the latest binary from the Releases page:
+
+https://github.com/musman-uk/logtidy/releases
+
+---
+
+### Windows
+
+1. Download `logtidy.exe` from the release.
+2. Move it into your Cargo bin directory
+
+```
+C:\Users\<you>\.cargo\bin\
+```
+
+3. Verify installation:
+
+```
+logtidy help
+```
+
+If you prefer not to move it, you can run it directly from the download location:
+
+```
+.\logtidy.exe help
+```
+
+#### Adding a custom folder to PATH (optional)
+
+If you want to keep the binary somewhere else:
+
+1. Open **Start Menu → Environment Variables**  
+2. Click **Environment Variables…**  
+3. Under **User variables**, select **Path** → **Edit**  
+4. Click **New** and add the folder containing `logtidy.exe`  
+5. Restart your terminal  
+
+---
+
+### Linux and macOS
+
+1. Download the `logtidy` binary.
+2. Make it executable:
+
+```
+chmod +x logtidy
+```
+
+3. Move it into a folder on your PATH, for example:
+
+```
+mv logtidy ~/.cargo/bin/
+```
+
+4. Verify installation:
+
+```
+logtidy help
+```
+
+---
+
 ### Install from crates.io
 
-If you have Rust and Cargo installed, you can install LogTidy directly from crates.io:
+If you have Rust and Cargo installed:
 
 ```
 cargo install logtidy
 ```
 
-This compiles the tool from source and places the binaries in `~/.cargo/bin`.
+This compiles LogTidy from source and places the binary in `~/.cargo/bin`.
+
+---
 
 ### Build from source with Cargo
-
-If you prefer to build the tool yourself, run:
 
 ```
 cargo build --release
 ```
 
-Then place the binaries on your PATH:
+Then move the binary to a folder on your PATH:
 
 ```
 cp target/release/logtidy ~/.cargo/bin/
@@ -75,8 +175,9 @@ Verify installation:
 
 ```
 logtidy help
-lt help
 ```
+
+---
 
 ### Quick Start
 
@@ -96,7 +197,7 @@ This emits structured JSON for each line.
 
 ---
 
-## 3. Commands
+## 4. Commands
 
 | Command   | Description                               |
 |----------|-------------------------------------------|
@@ -111,9 +212,9 @@ The command surface is intentionally minimal.
 
 ---
 
-## 4. Usage
+## 5. Usage
 
-### 4.1 Streaming Mode
+### 5.1 Streaming Mode
 
 Process logs line by line from stdin:
 
@@ -136,7 +237,7 @@ Use streaming mode when:
 
 ---
 
-### 4.2 Batch Mode
+### 5.2 Batch Mode
 
 Process an entire file:
 
@@ -152,7 +253,7 @@ Useful for:
 
 ---
 
-### 4.3 Example Output
+### 5.3 Example Output
 
 Input:
 
@@ -182,7 +283,7 @@ Output:
 
 ---
 
-## 4.4 Documentation and About
+## 5.4 Documentation and About
 
 Show documentation:
 
@@ -198,7 +299,7 @@ logtidy about
 
 ---
 
-## 4.5 Output Format
+## 5.5 Output Format
 
 Each processed line is emitted as a JSON object with:
 
@@ -212,7 +313,7 @@ The format is stable and predictable across versions.
 
 ---
 
-## 4.6 Behaviour on Malformed or Irregular Input
+## 5.6 Behaviour on Malformed or Irregular Input
 
 LogTidy aims to be predictable:
 
@@ -231,7 +332,7 @@ This keeps LogTidy deterministic and safe for pipelines.
 
 ---
 
-## 5. Platform Notes
+## 6. Platform Notes
 
 ### Windows PowerShell
 
@@ -251,7 +352,7 @@ cat sample.log | logtidy stream
 
 ---
 
-## 6. Troubleshooting
+## 7. Troubleshooting
 
 ### LogTidy is not recognised as a command
 
@@ -287,7 +388,7 @@ Use `Get-Content` rather than `type` or `cat` equivalents.
 
 ---
 
-## 7. Known Limitations
+## 8. Known Limitations
 
 - Only one timestamp format is supported:  
   `YYYY-MM-DDTHH:MM:SSZ`
@@ -299,6 +400,7 @@ Use `Get-Content` rather than `type` or `cat` equivalents.
 
 ---
 
-## 8. Summary
+## 9. Summary
 
 LogTidy is a predictable tool. It takes messy log lines and turns them into clean, structured JSON without guessing or interpreting meaning. It is intentionally minimal, pipeline friendly and designed to pair naturally with downstream tools, making it safe to integrate into real workflows.
+~~~
