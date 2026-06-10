@@ -66,15 +66,6 @@ Rust is **not required** to run LogTidy, but it is useful if you want to:
 - build from source
 - use the `.cargo/bin` directory (already on PATH)
 
-### 2.5 Executable permissions (Linux/macOS only)
-Downloaded binaries must be made executable:
-
-```
-chmod +x logtidy
-```
-
-Windows users do not need this step.
-
 ---
 
 ## 3. Installation
