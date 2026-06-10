@@ -1,6 +1,6 @@
 # LogTidy
 
-LogTidy is a log normaliser that  converts unstructured log lines into structured JSONL. It is designed for predictable CLI behaviour, simple composition with other tools, and clean integration into pipelines.
+This repository contains [LogTidy](https://github.com/musman-uk/logtidy/releases) -  a log normaliser that  converts unstructured log lines into structured JSONL. It is designed for predictable CLI behaviour, simple composition with other tools, and clean integration into pipelines.
 
 ---
 
@@ -32,5 +32,5 @@ A simplified view of how the tool is developed:
 
 ## Status
 
-Version `0.1.0` – In Development
+Version `0.1.0` – Published
 
