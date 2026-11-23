@@ -10,6 +10,9 @@
 # Logs or temporary files
 *.log
 
+# Generated code bundles
+*-code.txt
+
 # OS-specific noise
 .DS_Store
 Thumbs.db
