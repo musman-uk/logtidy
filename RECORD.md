@@ -80,7 +80,7 @@
 
 ## 4. Version History
 
-### v0.1.0 – In Development
+### v0.1.0 – Published
 - Implemented batch and stream processing modes  
 - Added example and documentation commands  
 - Introduced identity commands (`about`, `license`)  
