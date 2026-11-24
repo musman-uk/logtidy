@@ -116,7 +116,7 @@ If you want to keep the binary somewhere else:
 5. Restart your terminal  
 
 **Note:**  
-As LogTidy is a command‑line tool, double-clicking the `.exe` file will briefly open and close a window immediately — run it from a terminal instead.
+As LogTidy is a command‑line tool, double-clicking the `.exe` file will briefly open and close a window immediately – run it from a terminal instead.
 
 ---
 
