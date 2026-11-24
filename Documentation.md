@@ -179,15 +179,14 @@ This emits structured JSONL for each non-empty line.
 
 ## 4. Commands
 
-| Command   | Description                                       |
-|-----------|---------------------------------------------------|
-| `stream`  | Read from stdin and emit JSON per line            |
-| `batch`   | Process a file (`-f` / `--file`) or stdin at once |
-| `sample`  | Show example input and output                     |
-| `docs`    | Display condensed documentation reference         |
-| `about`   | Show tool name, version, and repository source    |
-| `license` | Show copyright and GPL-3.0-only license details   |
-| `help`    | Show help for any command                         |
+| Command  | Description                                                      |
+|----------|------------------------------------------------------------------|
+| `stream` | Read from stdin and emit JSON per line                           |
+| `batch`  | Process a file (`-f` / `--file`) or stdin at once                |
+| `sample` | Show example input and output                                    |
+| `docs`   | Display condensed documentation reference                        |
+| `about`  | Show tool name, version, license, source, and copyright notice   |
+| `help`   | Show help for any command                                        |
 
 The command surface is intentionally minimal.
 
@@ -288,7 +287,7 @@ Output:
 
 ---
 
-## 5.4 Documentation, About, and License
+### 5.4 Documentation and About
 
 Show condensed documentation:
 
@@ -296,18 +295,11 @@ Show condensed documentation:
 logtidy docs
 ```
 
-Show tool information and version:
+Show tool information, version, and license:
 
 ```
 logtidy about
 ```
-
-Show license information:
-
-```
-logtidy license
-```
-
 ---
 
 ## 5.5 Output Format
