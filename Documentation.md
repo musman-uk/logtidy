@@ -317,7 +317,7 @@ Each processed line is emitted as a JSON object with keys in a fixed order:
 - **message**: remaining message text after extracting timestamp and level (or JSON `"message"` / `"msg"`), or `null` if empty  
 - **timestamp**: extracted timestamp or `null`  
 - **level**: extracted uppercase log level or `null`  
-- **fields**: JSON object containing any additional keys from JSON input lines, or `null` for plain-text lines  
+- **fields**: JSON object containing any additional keys from JSON input lines, or `null` for plain-text lines
 
 ---
 
@@ -331,7 +331,7 @@ LogTidy aims to be predictable:
 - **Message extraction on plain text**: when a timestamp or level is matched in plain text, it is stripped from `message` and surrounding whitespace is trimmed (if nothing remains, `message` becomes `null`)  
 - **JSON line handling**: lines beginning with `{` (ignoring leading whitespace) are parsed as JSON objects. Keys `ts`/`timestamp`/`time`, `level`/`lvl` (normalised to uppercase), and `message`/`msg` map to the top-level envelope, and any remaining keys are placed in `fields`  
 - **Graceful fallback on broken JSON**: if a line starts with `{` but is not valid JSON, LogTidy does not fail—it falls back to plain-text extraction  
-- **Whitespace differences between modes**: `batch` trims leading and trailing whitespace on each line before parsing, whereas `stream` preserves leading spaces in plain-text messages  
+- **Whitespace trimming**: both `batch` and `stream` trim leading and trailing whitespace from plain-text messages 
 - **Input must be valid UTF‑8**: invalid UTF‑8 byte sequences return an I/O error rather than panicking  
 
 ---
