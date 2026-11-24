@@ -29,7 +29,7 @@ Before installing LogTidy, ensure the following requirements are met:
 ### 2.1 A terminal
 LogTidy is a command‑line tool. You will need:
 
-- **Windows**: PowerShell or Command Prompt  
+- **Windows**: PowerShell or Command Prompt (including VS Code's integrated terminal)  
 - **macOS**: Terminal  
 - **Linux**: Any shell (bash, zsh, etc.)
 
@@ -114,6 +114,9 @@ If you want to keep the binary somewhere else:
 3. Under **User variables**, select **Path** → **Edit**  
 4. Click **New** and add the folder containing `logtidy.exe`  
 5. Restart your terminal  
+
+**Note:**  
+As LogTidy is a command‑line tool, double-clicking the `.exe` file will briefly open and close a window immediately — run it from a terminal instead.
 
 ---
 
