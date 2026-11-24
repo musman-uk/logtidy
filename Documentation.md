@@ -122,7 +122,7 @@ If you want to keep the binary somewhere else:
 Clone the repository and build release binaries:
 
 ```
-git clone [https://github.com/musman-uk/logtidy.git](https://github.com/musman-uk/logtidy.git)
+git clone https://github.com/musman-uk/logtidy.git
 cd logtidy
 cargo build --release
 ```
