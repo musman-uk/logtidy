@@ -116,7 +116,11 @@ If you want to keep the binary somewhere else:
 5. Restart your terminal  
 
 **Note:**  
-As LogTidy is a command‑line tool, double-clicking the `.exe` file will briefly open and close a window immediately – run it from a terminal instead.
+Double-clicking the `.exe` file may briefly open and close a terminal window immediately. As 
+prebuilt binaries are not digitally signed, your browser or Windows may show
+a prompt – choose **Keep** when downloading, and click **More info → Run anyway** if Windows 
+prompts you when running it. Alternatively, you can build from
+source using Cargo (Section 3.2).
 
 ---
 
