@@ -11,9 +11,10 @@ A short summary of what each part of the project contains:
 - `src/` – Rust source files for the CLI, parsing logic, and output envelope  
 - `tests/` – integration tests and sample fixtures  
 - `Documentation.md` – full usage, examples, and troubleshooting  
+- `RECORD.md` – high‑level design notes, development history, and architectural decisions  
 - `Cargo.toml` – package metadata and binary definitions (`logtidy` and `lt`)  
-- `LICENSE` – project license  
-- `README.md` – high‑level overview of the project, including purpose and structure  
+- `LICENSE` – project license (`GPL-3.0-only`)  
+- `README.md` – high‑level overview of the project, including purpose and structure
 
 ---
 
