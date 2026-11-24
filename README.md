@@ -39,7 +39,7 @@ Licensed under the [GNU General Public License v3.0](LICENSE) (`GPL-3.0-only`).
 
 ## Status
 
-Version `0.1.0` – Published
+Version `0.1.1` – Published
 
 ---
 
