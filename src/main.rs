@@ -44,9 +44,6 @@ enum Commands {
 
     /// Show tool information
     About,
-
-    /// Show license information
-    License,
 }
 
 fn main() -> Result<()> {
@@ -67,34 +64,34 @@ fn main() -> Result<()> {
             println!("sample");
             println!("------------------------------------------------");
             println!("Example input:");
-            println!("  [raw log line]");
+            println!("  2024-03-10T12:00:01Z INFO Starting service");
             println!("Example output:");
-            println!("  {{ \"timestamp\": ..., \"message\": ... }}");
+            println!("  {{\"line\":1,\"message\":\"Starting service\",\"timestamp\":\"2024-03-10T12:00:01Z\",\"level\":\"INFO\",\"fields\":null}}");
         }
 
         Some(Commands::Docs) => {
             println!("docs");
             println!("------------------------------------------------");
             println!("Purpose:");
-            println!("  Convert raw logs into structured, predictable output.");
+            println!("  Convert raw logs into structured, predictable JSONL output.");
             println!();
             println!("Usage:");
             println!("  logtidy batch --file <path>");
             println!("  cat app.log | logtidy stream");
             println!();
             println!("Input:");
-            println!("  - Raw log lines (text)");
+            println!("  - Raw, semi-structured, or JSON log lines");
             println!("  - Stdin or file");
             println!();
             println!("Output:");
-            println!("  - Structured logs (JSON)");
+            println!("  - Structured logs (JSONL)");
             println!();
             println!("Examples:");
             println!("  For example input/output, run:");
             println!("    logtidy sample");
             println!();
             println!("Full Documentation:");
-            println!("  https://github.com/musman-uk/logtidy/blob/main/Documentation.md");
+            println!("  https://github.com/musman-uk/logtidy");
         }
 
         Some(Commands::About) => {
@@ -102,15 +99,10 @@ fn main() -> Result<()> {
             println!("------------------------------------------------");
             println!("Name: LogTidy");
             println!("Version: {}", env!("CARGO_PKG_VERSION"));
+            println!("License: {}", env!("CARGO_PKG_LICENSE"));
             println!("Source: https://github.com/musman-uk/logtidy");
-        }
-
-        Some(Commands::License) => {
-            println!("license");
-            println!("------------------------------------------------");
-            println!("© Mohammed Usman");
             println!();
-            println!("All rights reserved. No commercial use, redistribution, or derivatives.");
+            println!("© Mohammed Usman");
         }
 
         None => {
@@ -124,7 +116,6 @@ fn main() -> Result<()> {
             println!("  sample    Show example input/output");
             println!("  docs      Show condensed documentation");
             println!("  about     Show tool information");
-            println!("  license   Show license information");
             println!("  help      Show help");
         }
     }

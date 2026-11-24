@@ -1,11 +1,12 @@
 [package]
 name = "logtidy"
-version = "0.1.0"
+version = "0.1.1"
 edition = "2021"
 authors = ["Mohammed Usman"]
 description = "A CLI tool that normalises logs."
 repository = "https://github.com/musman-uk/logtidy"
-license-file = "LICENSE"
+license = "GPL-3.0-only"
+default-run = "logtidy"
 
 [dependencies]
 serde = { version = "1", features = ["derive"] }

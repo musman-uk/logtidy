@@ -9,7 +9,8 @@ fn tidy_basic_log() {
 "#;
 
     let mut cmd = Command::cargo_bin("logtidy").unwrap();
-    cmd.write_stdin(input)
+    cmd.arg("stream")
+        .write_stdin(input)
         .assert()
         .success()
         // Line 1
@@ -30,4 +31,20 @@ fn tidy_basic_log() {
         .stdout(predicate::str::contains(r#""timestamp":"2024-03-10T12:05:38Z""#))
         .stdout(predicate::str::contains(r#""level":"INFO""#))
         .stdout(predicate::str::contains(r#""message":"something happened""#));
+}
+
+#[test]
+fn tidy_batch_mode() {
+    let input = "2024-03-10T12:05:38Z WARN disk almost full\n";
+
+    let mut cmd = Command::cargo_bin("logtidy").unwrap();
+    cmd.arg("batch")
+        .write_stdin(input)
+        .assert()
+        .success()
+        .stdout(predicate::str::contains(r#""line":1"#))
+        .stdout(predicate::str::contains(r#""message":"disk almost full""#))
+        .stdout(predicate::str::contains(r#""timestamp":"2024-03-10T12:05:38Z""#))
+        .stdout(predicate::str::contains(r#""level":"WARN""#))
+        .stdout(predicate::str::contains(r#""fields":null"#));
 }
