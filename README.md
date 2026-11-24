@@ -30,6 +30,8 @@ A simplified view of how the tool is developed:
 
 ---
 
+<sub>© Mohammed Usman</sub>
+
 ## Status
 
 Version `0.1.0` – Published
