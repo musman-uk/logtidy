@@ -30,9 +30,16 @@ A simplified view of how the tool is developed:
 
 ---
 
-<sub>© Mohammed Usman</sub>
+## License
+
+Licensed under the [GNU General Public License v3.0](LICENSE) (`GPL-3.0-only`).
+
+---
 
 ## Status
 
 Version `0.1.0` – Published
 
+---
+
+<sub>© Mohammed Usman</sub>
