@@ -35,8 +35,7 @@
 - `stream` – processes stdin line‑by‑line  
 - `sample` – provides minimal example input and output  
 - `docs` – summarises usage, inputs, outputs, and examples  
-- `about` – displays tool name, version, and repository source  
-- `license` – displays authorship and rights information  
+- `about` – displays tool name, version, license, repository source, and copyright
 
 ### Source Layout
 | File / Module     | Purpose |
@@ -51,8 +50,8 @@
 
 ### Versioning
 - Version sourced from `Cargo.toml` via `env!("CARGO_PKG_VERSION")`  
-- Current stage: **v0.1.0 (draft / pre‑release)**  
-- Versioning will stabilise once parsing rules and output formats mature  
+- Current stage: **v0.1.1**  
+- Versioning will stabilise once parsing rules and output formats mature
 
 ---
 
@@ -80,7 +79,14 @@
 
 ## 4. Version History
 
-### v0.1.0 – Published
+### v0.1.1 – Current
+- Relicensed under GNU General Public License v3.0 (`GPL-3.0-only`)
+- Consolidated tool metadata, license, and copyright notice into `about`
+- Aligned `README.md` and `Documentation.md` with current CLI behaviour and release workflow
+- Set `default-run = "logtidy"` in `Cargo.toml`
+
+
+### v0.1.0
 - Implemented batch and stream processing modes  
 - Added example and documentation commands  
 - Introduced identity commands (`about`, `license`)  
