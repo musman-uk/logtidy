@@ -1,6 +1,6 @@
 use clap::{Parser, Subcommand};
 use std::path::PathBuf;
-use std::io::Read;
+use std::io::{self, IsTerminal, Read};
 use anyhow::{Result, Context};
 
 mod envelope;
@@ -61,8 +61,6 @@ fn main() -> Result<()> {
         }
 
         Some(Commands::Sample) => {
-            println!("sample");
-            println!("------------------------------------------------");
             println!("Example input:");
             println!("  2024-03-10T12:00:01Z INFO Starting service");
             println!("Example output:");
@@ -70,8 +68,6 @@ fn main() -> Result<()> {
         }
 
         Some(Commands::Docs) => {
-            println!("docs");
-            println!("------------------------------------------------");
             println!("Purpose:");
             println!("  Convert raw logs into structured, predictable JSONL output.");
             println!();
@@ -91,24 +87,33 @@ fn main() -> Result<()> {
             println!("    logtidy sample");
             println!();
             println!("Full Documentation:");
-            println!("  https://github.com/musman-uk/logtidy");
+            println!("  https://github.com/musman-uk/logtidy/blob/main/Documentation.md");
         }
 
         Some(Commands::About) => {
-            println!("about");
-            println!("------------------------------------------------");
-            println!("Name: LogTidy");
-            println!("Version: {}", env!("CARGO_PKG_VERSION"));
-            println!("License: {}", env!("CARGO_PKG_LICENSE"));
-            println!("Source: https://github.com/musman-uk/logtidy");
+            println!(
+                "LogTidy v{} · {}",
+                env!("CARGO_PKG_VERSION"),
+                env!("CARGO_PKG_LICENSE")
+            );
+            println!("https://github.com/musman-uk/logtidy");
             println!();
-            println!("© Mohammed Usman");
+
+            if io::stdout().is_terminal() {
+                println!(
+                    "\x1b]8;;https://github.com/musman-uk\x1b\\\x1b[3mMohammed Usman\x1b[0m\x1b]8;;\x1b\\"
+                );
+                println!();
+                println!("\x1b[2m© Mohammed Usman\x1b[0m");
+            } else {
+                println!("Mohammed Usman");
+                println!();
+                println!("© Mohammed Usman");
+            }
         }
 
         None => {
-            println!("logtidy");
-            println!("------------------------------------------------");
-            println!("Normalise logs into structured form");
+            println!("LogTidy — Normalise logs into structured form");
             println!();
             println!("Commands:");
             println!("  batch     Process entire input at once");
