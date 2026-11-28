@@ -26,3 +26,5 @@ code.txt
 *-code.txt
 apply-changes.mjs
 undo-changes.mjs
+.apply-backup/
+code-bundle.txt
