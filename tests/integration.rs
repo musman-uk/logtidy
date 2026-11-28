@@ -7,7 +7,7 @@ fn tidy_basic_log() {
 2024-03-10T12:05:38Z INFO something happened
 "#;
 
-    let assert = Command::cargo_bin("logtidy")
+    let assert = Command::cargo_bin("logtidier")
         .unwrap()
         .arg("stream")
         .write_stdin(input)
@@ -40,7 +40,7 @@ fn tidy_basic_log() {
 fn tidy_batch_mode() {
     let input = "2024-03-10T12:05:38Z WARN disk almost full\n";
 
-    let assert = Command::cargo_bin("logtidy")
+    let assert = Command::cargo_bin("logtidier")
         .unwrap()
         .arg("batch")
         .write_stdin(input)
@@ -58,7 +58,7 @@ fn tidy_batch_mode() {
 
 #[test]
 fn empty_stdin_exits_cleanly() {
-    let assert = Command::cargo_bin("logtidy")
+    let assert = Command::cargo_bin("logtidier")
         .unwrap()
         .arg("stream")
         .write_stdin("")
@@ -73,7 +73,7 @@ fn empty_stdin_exits_cleanly() {
 fn blank_lines_skipped_but_increment_line_number() {
     let input = "\n   \n2024-03-10T12:00:01Z INFO after blanks\n";
 
-    let assert = Command::cargo_bin("logtidy")
+    let assert = Command::cargo_bin("logtidier")
         .unwrap()
         .arg("stream")
         .write_stdin(input)
@@ -90,7 +90,7 @@ fn blank_lines_skipped_but_increment_line_number() {
 fn malformed_json_and_crlf_handled_gracefully() {
     let input = "{\"ts\":\"2024-03-10T12:00:01Z\", broken\r\n2024-03-10T12:05:38Z INFO windows newline\r\n";
 
-    let assert = Command::cargo_bin("logtidy")
+    let assert = Command::cargo_bin("logtidier")
         .unwrap()
         .arg("stream")
         .write_stdin(input)
@@ -106,7 +106,7 @@ fn malformed_json_and_crlf_handled_gracefully() {
 
 #[test]
 fn batch_file_fixture_and_missing_file_error() {
-    let assert = Command::cargo_bin("logtidy")
+    let assert = Command::cargo_bin("logtidier")
         .unwrap()
         .args(["batch", "--file", "tests/fixtures/sample1.log"])
         .assert()
@@ -116,7 +116,7 @@ fn batch_file_fixture_and_missing_file_error() {
     assert_eq!(stdout.lines().count(), 15);
     assert!(stdout.contains(r#""fields":{"items":120}"#));
 
-    Command::cargo_bin("logtidy")
+    Command::cargo_bin("logtidier")
         .unwrap()
         .args(["batch", "--file", "tests/fixtures/does-not-exist.log"])
         .assert()
@@ -125,14 +125,14 @@ fn batch_file_fixture_and_missing_file_error() {
 
 #[test]
 fn about_strips_escape_codes_when_piped() {
-    let assert = Command::cargo_bin("logtidy")
+    let assert = Command::cargo_bin("logtidier")
         .unwrap()
         .arg("about")
         .assert()
         .success();
 
     let stdout = String::from_utf8_lossy(&assert.get_output().stdout);
-    assert!(stdout.to_lowercase().contains("logtidy"));
+    assert!(stdout.to_lowercase().contains("logtidier"));
     assert!(stdout.contains("Mohammed Usman"));
     assert!(!stdout.contains("\x1b["));
     assert!(!stdout.contains("\x1b]8;;"));
@@ -146,7 +146,7 @@ fn lt_alias_and_invalid_subcommand() {
         .assert()
         .success();
 
-    let assert = Command::cargo_bin("logtidy")
+    let assert = Command::cargo_bin("logtidier")
         .unwrap()
         .arg("not-a-command")
         .assert()

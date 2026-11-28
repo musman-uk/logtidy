@@ -4,6 +4,7 @@ use regex::Regex;
 use serde_json::Value;
 use std::collections::HashMap;
 
+/// Regexes are compiled once on construction so per-line processing avoids recompilation.
 pub struct Parser {
     ts_regex: Regex,
     level_regex: Regex,
@@ -11,6 +12,8 @@ pub struct Parser {
 
 impl Parser {
     pub fn new() -> Self {
+        // Intentionally scoped to strict ISO-8601 UTC timestamps and uppercase levels
+        // to avoid false positives on arbitrary numbers or prose words inside messages.
         let ts_regex = Regex::new(
             r"(?P<ts>\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z)"
         )
@@ -24,41 +27,38 @@ impl Parser {
         }
     }
 
+    /// JSON keys take precedence when present; plain-text extractors backfill any missing fields.
     pub fn process(&self, line: Line) -> Value {
         let mut env = Envelope::new(line.number);
 
-        // 1. Try JSON first
         if let Some(json_value) = self.try_json(&line.text) {
             self.extract_from_json(&mut env, json_value);
         }
 
-        // 2. Extract timestamp if missing
         if env.timestamp.is_none() {
             if let Some(ts) = self.extract_timestamp(&line.text) {
                 env.timestamp = Some(ts);
             }
         }
 
-        // 3. Extract level if missing
         if env.level.is_none() {
             if let Some(level) = self.extract_level(&line.text) {
                 env.level = Some(level);
             }
         }
 
-        // 4. Extract message if missing
         if env.message.is_none() {
             if let Some(msg) = self.extract_message(&line.text) {
                 env.message = Some(msg);
             }
         }
 
-        // ❌ REMOVE raw fallback — we no longer use raw
-        // ❌ REMOVE env.is_structured() logic entirely
-
         env.into_json()
     }
 
+    /// Guarding on a leading `{` avoids unnecessary JSON parsing on plain-text lines
+    /// and prevents JSON scalars or arrays from bypassing plain-text extraction.
+    /// Invalid JSON returns `None` so broken lines degrade to plain-text parsing rather than failing.
     fn try_json(&self, text: &str) -> Option<Value> {
         if !text.trim_start().starts_with('{') {
             return None;
@@ -94,7 +94,6 @@ impl Parser {
                         }
                     }
                     _ => {
-                        // Keep unknown fields, but do NOT preserve original JSON structure
                         fields.insert(k, v);
                     }
                 }
@@ -118,11 +117,10 @@ impl Parser {
             .and_then(|caps| caps.get(1).map(|m| m.as_str().to_string()))
     }
 
+    /// Strips only the first matched timestamp and level (`replace`, not `replace_all`)
+    /// so any subsequent occurrences inside the message body remain intact.
     fn extract_message(&self, text: &str) -> Option<String> {
-        // Remove timestamp
         let without_ts = self.ts_regex.replace(text, "").trim().to_string();
-
-        // Remove level
         let without_level = self.level_regex.replace(&without_ts, "").trim().to_string();
 
         if without_level.is_empty() {

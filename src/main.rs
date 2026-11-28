@@ -10,20 +10,20 @@ mod parser;
 mod stream;
 mod batch;
 
-/// CLI definition
 #[derive(Parser)]
 #[command(
-    name = "logtidy",
+    name = "logtidier",
     version,
     about = "Normalise logs into structured form",
     long_about = None
 )]
 struct Cli {
+    /// Kept optional so running `logtidier` with no subcommand prints a concise
+    /// command overview rather than failing with a missing-argument error.
     #[command(subcommand)]
     command: Option<Commands>,
 }
 
-/// Subcommands
 #[derive(Subcommand)]
 enum Commands {
     /// Batch mode: process entire input at once
@@ -72,8 +72,8 @@ fn main() -> Result<()> {
             println!("  Convert raw logs into structured, predictable JSONL output.");
             println!();
             println!("Usage:");
-            println!("  logtidy batch --file <path>");
-            println!("  cat app.log | logtidy stream");
+            println!("  logtidier batch --file <path>");
+            println!("  cat app.log | logtidier stream");
             println!();
             println!("Input:");
             println!("  - Raw, semi-structured, or JSON log lines");
@@ -84,21 +84,23 @@ fn main() -> Result<()> {
             println!();
             println!("Examples:");
             println!("  For example input/output, run:");
-            println!("    logtidy sample");
+            println!("    logtidier sample");
             println!();
             println!("Full Documentation:");
-            println!("  https://github.com/musman-uk/logtidy/blob/main/Documentation.md");
+            println!("  https://github.com/musman-uk/logtidier/blob/main/Documentation.md");
         }
 
         Some(Commands::About) => {
             println!(
-                "LogTidy v{} · {}",
+                "LogTidier v{} · {}",
                 env!("CARGO_PKG_VERSION"),
                 env!("CARGO_PKG_LICENSE")
             );
-            println!("https://github.com/musman-uk/logtidy");
+            println!("https://github.com/musman-uk/logtidier");
             println!();
 
+            // Emit OSC 8 clickable links and ANSI styles only in interactive terminals;
+            // fall back to plain text when piped or captured so escape sequences never leak.
             if io::stdout().is_terminal() {
                 println!(
                     "\x1b]8;;https://github.com/musman-uk\x1b\\\x1b[3mMohammed Usman\x1b[0m\x1b]8;;\x1b\\"
@@ -113,7 +115,7 @@ fn main() -> Result<()> {
         }
 
         None => {
-            println!("LogTidy — Normalise logs into structured form");
+            println!("LogTidier — Normalise logs into structured form");
             println!();
             println!("Commands:");
             println!("  batch     Process entire input at once");
@@ -128,7 +130,6 @@ fn main() -> Result<()> {
     Ok(())
 }
 
-/// Reads from a file if provided, otherwise from stdin
 fn read_input(file: Option<PathBuf>) -> Result<String> {
     if let Some(path) = file {
         Ok(std::fs::read_to_string(&path)

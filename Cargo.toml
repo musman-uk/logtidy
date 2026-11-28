@@ -1,15 +1,16 @@
 [package]
-name = "logtidy"
-version = "0.1.1"
+name = "logtidier"
+version = "0.2.0"
 edition = "2021"
 authors = ["Mohammed Usman"]
 description = "A CLI tool that normalises logs."
-repository = "https://github.com/musman-uk/logtidy"
+repository = "https://github.com/musman-uk/logtidier"
 license = "GPL-3.0-only"
-default-run = "logtidy"
+default-run = "logtidier"
 
 [dependencies]
 serde = { version = "1", features = ["derive"] }
+# `preserve_order` ensures `Envelope::into_json` serialises keys in a fixed, deterministic sequence.
 serde_json = { version = "1", features = ["preserve_order"] }
 regex = "1"
 thiserror = "1"
@@ -19,8 +20,10 @@ anyhow = "1"
 [dev-dependencies]
 assert_cmd = "2"
 
+# Compile both the canonical binary and the `lt` shorthand from the same entry point
+# so users get both commands out of the box without manual PATH symlinks or shell aliases.
 [[bin]]
-name = "logtidy"
+name = "logtidier"
 path = "src/main.rs"
 
 [[bin]]

@@ -1,14 +1,15 @@
-use crate::errors::LogTidyError;
+use crate::errors::LogTidierError;
 use crate::line::Line;
 use crate::parser::Parser;
 use std::io::{self, BufRead};
 
-/// Stream mode: read from stdin and print each structured line immediately.
-/// This preserves the original behaviour of logtidy.
-pub fn stream() -> Result<(), LogTidyError> {
+/// Streams stdin line-by-line so unbounded inputs (such as `tail -f`) run in constant memory
+/// and emit records immediately without waiting for EOF.
+pub fn stream() -> Result<(), LogTidierError> {
     let stdin = io::stdin();
     let parser = Parser::new();
 
+    // Enumerate before skipping blank lines so 1-based line numbers match the input stream.
     for (idx, line) in stdin.lock().lines().enumerate() {
         let text = line?;
         if text.trim().is_empty() {
@@ -18,6 +19,7 @@ pub fn stream() -> Result<(), LogTidyError> {
         let line = Line::new(idx + 1, text);
         let json = parser.process(line);
 
+        // Safe to unwrap: `Envelope::into_json` produces a guaranteed-serialisable `Value`.
         println!("{}", serde_json::to_string(&json).unwrap());
     }
 

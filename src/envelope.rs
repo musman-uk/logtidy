@@ -18,13 +18,14 @@ impl Envelope {
         }
     }
 
+    /// Serialises the envelope with a fixed key order (`line`, `message`, `timestamp`, `level`, `fields`).
+    /// Missing values are emitted explicitly as `null` rather than omitted so downstream
+    /// consumers can rely on a uniform schema across every JSONL record.
     pub fn into_json(self) -> Value {
         let mut obj = Map::new();
 
-        // 1. Line number (always present)
         obj.insert("line".into(), Value::from(self.line));
 
-        // 2. Message (null if missing)
         obj.insert(
             "message".into(),
             match self.message {
@@ -33,7 +34,6 @@ impl Envelope {
             },
         );
 
-        // 3. Timestamp (null if missing)
         obj.insert(
             "timestamp".into(),
             match self.timestamp {
@@ -42,7 +42,6 @@ impl Envelope {
             },
         );
 
-        // 4. Level (null if missing)
         obj.insert(
             "level".into(),
             match self.level {
@@ -51,7 +50,6 @@ impl Envelope {
             },
         );
 
-        // 5. Fields (null if empty)
         obj.insert(
             "fields".into(),
             if self.fields.is_empty() {

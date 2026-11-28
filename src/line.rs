@@ -1,3 +1,5 @@
+/// Carries the original 1-based line number alongside non-empty text so
+/// downstream tools can trace entries back to the source even when blank lines are skipped.
 #[derive(Debug)]
 pub struct Line {
     pub number: usize,
